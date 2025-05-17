@@ -1,0 +1,26 @@
+{
+  search(query: "stars:>100", type: REPOSITORY, first: 100{AFTER}) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      ... on Repository {
+        name
+        owner { login }
+        stargazerCount
+        forkCount
+        createdAt
+        updatedAt
+        primaryLanguage { name }
+        licenseInfo { name }
+        description
+        repositoryTopics(first: 10) {
+          nodes {
+            topic { name }
+          }
+        }
+      }
+    }
+  }
+}

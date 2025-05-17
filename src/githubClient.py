@@ -3,36 +3,42 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-githubToken = os.getenv("GITHUB_TOKEN")
-
-headers = {
-    "Authorization": f"Bearer {githubToken}",
-    "Accept": "application/vnd.github+json"
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+HEADERS = {
+    "Authorization": f"Bearer {GITHUB_TOKEN}",
+    "Content-Type": "application/json"
 }
+GRAPHQL_URL = "https://api.github.com/graphql"
 
-def fetchRepositories(language="Python", perPage=50, pages=2):
+def readQuery(after_cursor=None):
+    with open("src/githubQuery.gql", "r", encoding="utf-8") as file:
+        base_query = file.read()
+    after = f', after: "{after_cursor}"' if after_cursor else ""
+    return { "query": base_query.replace("{AFTER}", after) }
+
+def fetchRepositories(total=1000):
     repos = []
-
-    for page in range(1, pages + 1):
-        url = f"https://api.github.com/search/repositories?q=language:{language}&sort=stars&order=desc&per_page={perPage}&page={page}"
-        response = requests.get(url, headers=headers)
-
+    cursor = None
+    while len(repos) < total:
+        response = requests.post(GRAPHQL_URL, headers=HEADERS, json=readQuery(cursor))
         if response.status_code != 200:
-            continue
-
-        data = response.json()
-        for repo in data["items"]:
+            print("Erro:", response.text)
+            break
+        data = response.json()["data"]["search"]
+        for repo in data["nodes"]:
             repos.append({
                 "name": repo["name"],
                 "owner": repo["owner"]["login"],
-                "language": repo["language"],
-                "stars": repo["stargazers_count"],
-                "forks": repo["forks_count"],
-                "createdAt": repo["created_at"],
-                "updatedAt": repo["updated_at"],
-                "topics": ", ".join(repo.get("topics", [])),
-                "license": repo["license"]["name"] if repo["license"] else "No license",
+                "language": repo["primaryLanguage"]["name"] if repo["primaryLanguage"] else "Unknown",
+                "stars": repo["stargazerCount"],
+                "forks": repo["forkCount"],
+                "createdAt": repo["createdAt"],
+                "updatedAt": repo["updatedAt"],
+                "license": repo["licenseInfo"]["name"] if repo["licenseInfo"] else "No license",
+                "topics": ", ".join([t["topic"]["name"] for t in repo["repositoryTopics"]["nodes"]]),
                 "description": repo["description"] or ""
             })
-
-    return repos
+        if not data["pageInfo"]["hasNextPage"]:
+            break
+        cursor = data["pageInfo"]["endCursor"]
+    return repos[:total]

@@ -2,11 +2,7 @@ from githubClient import fetchRepositories
 from csvWriter import saveToCsv
 
 def main():
-    language = "Python"
-    perPage = 50
-    pages = 2
-
-    repos = fetchRepositories(language=language, perPage=perPage, pages=pages)
+    repos = fetchRepositories(total=1000)
     saveToCsv(repos)
 
 if __name__ == "__main__":
