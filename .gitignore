@@ -1,0 +1,23 @@
+# .gitignore para o projeto LAB04-Experimentacao-Software
+
+# Ambiente virtual
+venv/
+
+# Arquivos temporários
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Arquivos de dados gerados
+*.csv
+
+# Configuração de ambiente
+.env
+
+# Power BI auto files
+*.pbix
+*.pbip
+
+# VSCode settings
+.vscode/
