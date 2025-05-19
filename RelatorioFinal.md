@@ -1,4 +1,4 @@
-# Sprint 2 - Relatório de Análise de Dados
+# Relatório de Análise de Dados
 
 ## Introdução
 
@@ -18,6 +18,8 @@ Campos utilizados:
 
 ### RQ1 - Qual a evolução da popularidade dos repositórios ao longo dos anos?
 
+![Gráfico RQ1](graphs/RQ1.png)
+
 **Gráfico:** Linha do tempo com soma de estrelas (stars) por ano de criação (`createdAt`).
 
 **Insight:** A maior concentração de repositórios populares foi criada entre 2014 e 2018, indicando um período de grande atividade na comunidade open source.
@@ -25,6 +27,8 @@ Campos utilizados:
 ---
 
 ### RQ2 - Qual é a média de estrelas e forks por linguagem?
+
+![Gráfico RQ2](graphs/RQ2.png)
 
 **Gráfico:** Colunas agrupadas com linha (média de stars e forks por `language`).
 
@@ -34,6 +38,8 @@ Campos utilizados:
 
 ### RQ3 - Quais tópicos estão associados aos repositórios com maior popularidade?
 
+![Gráfico RQ3](graphs/RQ3.png)
+
 **Gráfico:** Dispersão com `topics` no eixo X e soma de `stars` no eixo Y.
 
 **Insight:** Alguns tópicos como `30daysofpython` ou `ai` estão associados a repositórios altamente populares. A análise ajuda a identificar temas em alta na comunidade.
@@ -42,6 +48,8 @@ Campos utilizados:
 
 ### RQ4 - Existe correlação entre o número de tópicos e a popularidade dos repositórios?
 
+![Gráfico RQ4](graphs/RQ4.png)
+
 **Gráfico:** Dispersão com `numTopics` no eixo X e soma de `stars` no eixo Y, com tamanho das bolhas proporcional ao número de `forks`.
 
 **Insight:** Há uma tendência de repositórios com mais tópicos receberem mais atenção, mas a correlação não é linear. Alguns repositórios com poucos tópicos também são muito populares.
@@ -49,6 +57,8 @@ Campos utilizados:
 ---
 
 ### RQ5 - Como tem sido a atividade de atualizações ao longo dos anos?
+
+![Gráfico RQ5](graphs/RQ5.png)
 
 **Gráfico:** Linha do tempo com soma de estrelas por ano de `updatedAt`.
 
